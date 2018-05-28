@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.27004.2010
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "Solitaire", "Solitaire\Solitaire.vcxproj", "{82E21782-5DBB-46A8-9C76-3D6923D3E610}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|x64 = Debug|x64
+		Debug|x86 = Debug|x86
+		Release|x64 = Release|x64
+		Release|x86 = Release|x86
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Debug|x64.ActiveCfg = Debug|x64
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Debug|x64.Build.0 = Debug|x64
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Debug|x86.ActiveCfg = Debug|Win32
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Debug|x86.Build.0 = Debug|Win32
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Release|x64.ActiveCfg = Release|x64
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Release|x64.Build.0 = Release|x64
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Release|x86.ActiveCfg = Release|Win32
+		{82E21782-5DBB-46A8-9C76-3D6923D3E610}.Release|x86.Build.0 = Release|Win32
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {7799C2F7-5AB1-471A-8B60-DC2E473E147E}
+	EndGlobalSection
+EndGlobal
