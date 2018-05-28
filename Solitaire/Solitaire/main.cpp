@@ -2,6 +2,7 @@
 #include <windowsx.h>  // Include useful macros.
 
 #include "canvas.h"
+#include "GamePile.h"
 #include "resource.h"
 
 #define WINDOW_CLASS_NAME L"WINCLASS1"
@@ -21,6 +22,17 @@ globalCanvas->Draw();
 }
 }*/
 
+void GameSetup()
+{
+	// 52 cards to be created,
+	// In the 7 vectors, there will be a total of 28 cards
+	// Rest of the cards goes into the deck to be drawn. (24 cards)
+
+	// Create 2 piles that contain 1 card each.
+	//GamePile* pile1 = new GamePile();
+	//GamePile* pile2 = new GamePile();
+}
+
 LRESULT CALLBACK WindowProc(HWND hwnd,
 	UINT msg,
 	WPARAM wParam,
@@ -35,26 +47,50 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	case WM_CREATE:
 	{
 		// Do initialization stuff here.
-
+		globalCanvas = new Canvas;
 		// Return Success.
 		return (0);
 	}
 	break;
 
+	case WM_MOUSEMOVE:
+	{
+		mouseX = static_cast<int>(LOWORD(lParam));
+		mouseY = static_cast<int>(HIWORD(lParam));
+
+	}
+	break;
+
 	case WM_COMMAND:
 	{
-		/*switch (LOWORD(wParam))
+		switch (LOWORD(wParam))
 		{
-		
+		case ID_MENU_NEWGAME:
+		{
+
+			break;
+		}
+		case ID_MENU_HIGHSCORE:
+		{
+
+			break;
+		}
+		case ID_MENU_QUIT:
+		{
+			delete globalCanvas;
+			PostQuitMessage(0);
+			break;
+		}
 		default:
 			break;
-		}*/
+		}
 		return(0);
 	}
 	break;
 	case WM_DESTROY:
 	{
 		// Kill the application, this sends a WM_QUIT message.
+		delete globalCanvas;
 		PostQuitMessage(0);
 
 		// Return success.

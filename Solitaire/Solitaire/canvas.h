@@ -35,7 +35,7 @@ public:
 private:
 	CBackBuffer* backBuffer; // A canvas has a backbuffer.
 
-
+	HDC hdc;
 	HWND hwnd;
 };
 
