@@ -1,18 +1,19 @@
 #pragma once
+#include <Windows.h>
 
 enum Suit 
 {
-	DIAMOND = 0,
-	CLUB,
+	CLUB = 0,
+	HEART,
 	SPADE,
-	HEART
+	DIAMOND
 };
 
 
 class Card
 {
 public:
-	Card();
+	Card(Suit suit, int cardNumber);
 	~Card();
 
 	// Getters and Setters
@@ -20,10 +21,13 @@ public:
 	void SetSuit(Suit suit);
 	int GetCardNumber() const;
 	void SetCardNumber(int cardNumber);
-	
+	void SetBitmap(HBITMAP bitmap);
 
+	void Draw(HDC hdc, int drawX, int drawY);
+	
 private:
 	Suit suit;
 	int cardNumber;
+	HBITMAP bitmap;
 };
 

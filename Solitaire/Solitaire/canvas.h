@@ -22,21 +22,39 @@ Mail        :   [your.name]@mediadesign.school.nz
 #include <windowsx.h>
 #include <vector>
 
+class Card;
+class VectorPile;
+
 class Canvas
 {
 public:
 	Canvas();
 	~Canvas();
-	bool Initialise(HWND _hwnd, int _iWidth, int _iHeight);
+	bool Initialise(HWND hwnd, int width, int height);
 	CBackBuffer* GetBackBuffer();
 	bool Draw();
+	void AddToCards(Card * card);
+	void SetMousePosition(int mouseX, int mouseY);
+	VectorPile * GetHoveredOverVectorPile();
+
+	// For testing
+	void PickUpTopCard();
+	void PlaceCard();
+
+	void PickUpCards();
 
 
 private:
-	CBackBuffer* backBuffer; // A canvas has a backbuffer.
-
+	CBackBuffer* backBuffer = nullptr; // A canvas has a backbuffer.
+	std::vector<Card*> cards;
+	VectorPile * vectorPiles [7];
+	VectorPile * hand = nullptr;
 	HDC hdc;
 	HWND hwnd;
+	int mouseX;
+	int mouseY;
+	int handOffsetX;
+	int handOffsetY;
 };
 
 #endif

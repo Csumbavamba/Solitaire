@@ -2,8 +2,9 @@
 #include <windowsx.h>  // Include useful macros.
 
 #include "canvas.h"
-#include "GamePile.h"
+#include "VectorPile.h"
 #include "resource.h"
+#include "Card.h"
 
 #define WINDOW_CLASS_NAME L"WINCLASS1"
 
@@ -14,13 +15,15 @@ Canvas* globalCanvas = nullptr;
 int mouseX = 0;
 int mouseY = 0;
 
-/*void GameLoop()
+HBITMAP cardsBitmap;
+
+void GameLoop()
 {
-if (globalCanvas != nullptr)
-{
-globalCanvas->Draw();
+	if (globalCanvas != nullptr)
+	{
+		globalCanvas->Draw();
+	}
 }
-}*/
 
 void GameSetup()
 {
@@ -42,24 +45,49 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	PAINTSTRUCT ps; // Used in WM_PAINT.
 	HDC hdc;        // Handle to a device context.
 
+	
+	
+
 	switch (msg)
 	{
 	case WM_CREATE:
 	{
 		// Do initialization stuff here.
-		globalCanvas = new Canvas;
+		globalCanvas = new Canvas();
+		cardsBitmap = LoadBitmap(globalHandleToInstance, MAKEINTRESOURCE(IDB_BITMAP2));
+
+		globalCanvas->Initialise(hwnd, 1500, 800);
+
+
 		// Return Success.
 		return (0);
 	}
-	break;
+
+	case WM_LBUTTONDOWN:
+	{
+
+		globalCanvas->PickUpTopCard();
+		return(0);
+	}
+
+	case WM_RBUTTONDOWN:
+	{
+		globalCanvas->PlaceCard();
+		return(0);
+	}
 
 	case WM_MOUSEMOVE:
 	{
 		mouseX = static_cast<int>(LOWORD(lParam));
 		mouseY = static_cast<int>(HIWORD(lParam));
 
+		globalCanvas->SetMousePosition(mouseX, mouseY);
+
+		// Whenever Drag is true to the card --> follow mouse
+
+		return(0);
+
 	}
-	break;
 
 	case WM_COMMAND:
 	{
@@ -91,7 +119,10 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	{
 		// Kill the application, this sends a WM_QUIT message.
 		delete globalCanvas;
+		globalCanvas = nullptr;
 		PostQuitMessage(0);
+
+
 
 		// Return success.
 		return (0);
@@ -156,17 +187,16 @@ int WINAPI WinMain(HINSTANCE _hInstance,
 	}
 
 
-
 	// Enter main event loop
 	while (true)
 	{
 		// Test if there is a message in queue, if so get it.
-		if (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			// Test if this is a quit.
 			if (msg.message == WM_QUIT)
 			{
-				break;
+				return (static_cast<int>(msg.wParam));
 			}
 
 			// Translate any accelerator keys.
@@ -176,9 +206,9 @@ int WINAPI WinMain(HINSTANCE _hInstance,
 		}
 
 		// Main game processing goes here.
-		//GameLoop(); //One frame of game logic occurs here...
+		GameLoop(); //One frame of game logic occurs here...
 	}
 
 	// Return to Windows like this...
-	return (static_cast<int>(msg.wParam));
+	
 }

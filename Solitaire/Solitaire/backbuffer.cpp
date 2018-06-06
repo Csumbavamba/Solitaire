@@ -68,15 +68,19 @@ int CBackBuffer::GetWidth() const
 
 void CBackBuffer::Clear()
 {
-	HBRUSH hOldBrush = static_cast<HBRUSH>(SelectObject(m_BFDC, GetStockObject(WHITE_BRUSH)));
+	HBRUSH backgroundBrush = CreateSolidBrush(RGB(0, 128, 0));
+
+	HBRUSH hOldBrush = static_cast<HBRUSH>(SelectObject(m_BFDC, backgroundBrush));
 	RECT _rect;
 	_rect.top = 0;
 	_rect.left = 0;
 	_rect.bottom = m_iHeight;
 	_rect.right = m_iWidth;
 
-	FillRect(m_BFDC, &_rect, hOldBrush);
+
+	FillRect(m_BFDC, &_rect, backgroundBrush);
 	SelectObject(m_BFDC, hOldBrush);
+	DeleteObject(backgroundBrush);
 }
 
 void CBackBuffer::Present()

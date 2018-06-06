@@ -27,7 +27,7 @@
     <ClCompile Include="Card.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GamePile.cpp">
+    <ClCompile Include="VectorPile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -44,7 +44,7 @@
     <ClInclude Include="Card.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GamePile.h">
+    <ClInclude Include="VectorPile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -54,7 +54,13 @@
     </ResourceCompile>
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Assets\aceTestCard.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
     <Image Include="..\Assets\cards.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Assets\otherTestCard.bmp">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

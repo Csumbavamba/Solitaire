@@ -138,21 +138,23 @@
     <ClCompile Include="backbuffer.cpp" />
     <ClCompile Include="canvas.cpp" />
     <ClCompile Include="Card.cpp" />
-    <ClCompile Include="GamePile.cpp" />
+    <ClCompile Include="VectorPile.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="backbuffer.h" />
     <ClInclude Include="canvas.h" />
     <ClInclude Include="Card.h" />
-    <ClInclude Include="GamePile.h" />
+    <ClInclude Include="VectorPile.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Solitaire.rc" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\Assets\aceTestCard.bmp" />
     <Image Include="..\Assets\cards.bmp" />
+    <Image Include="..\Assets\otherTestCard.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
