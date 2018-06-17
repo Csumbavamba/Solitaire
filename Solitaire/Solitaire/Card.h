@@ -23,6 +23,9 @@ public:
 	void SetCardNumber(int cardNumber);
 	void SetBitmap(HBITMAP bitmap);
 
+	void SetIsDiscovered(bool discovered);
+	bool GetIsDiscovered() const;
+
 	void Draw(HDC hdc, int drawX, int drawY);
 	void DrawCardBack(HDC hdc, int drawX, int drawY);
 	
@@ -30,5 +33,6 @@ private:
 	Suit suit;
 	int cardNumber;
 	HBITMAP bitmap;
+	bool isDiscovered;
 };
 

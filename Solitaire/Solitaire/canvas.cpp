@@ -29,20 +29,20 @@ bool Canvas::Initialise(HWND hwnd, int width, int height)
 		for (int j = 0; j <= i; ++j)
 		{
 			//vectorPiles[i]->AddCard(new Card(SPADE, i));
-			Card * temp = shuffler->GiveRandomCard();
-			vectorPiles[i]->AddCard(temp);
+			vectorPiles[i]->AddCard(shuffler->GiveRandomCard());
 
 			vectorPiles[i]->SetFaceDownCards(i);
 		}
 		
 	}
 
+	delete shuffler;
+
 	hand = new VectorPile(0, 0);
 	hand->SetFaceDownCards(0);
 
 	handOffsetX = 0;
 	handOffsetY = 0;
-
 
 	return true;
 }
@@ -196,11 +196,11 @@ void Canvas::PickUpCards()
 		if (hand->GetPileSize() == 0)
 		{
 			// int bottomY = GetBottomLocationOfPile(hoveredVector);
-			int currentCheckedYPosition = GetBottomLocationOfPile(hoveredVector);
+			int currentCheckedYPosition = GetBottomLocationOfPile(hoveredVector) - hoveredVector->GetHeight();
 			// Check from the bottom how many cards should be collected
 			if (mouseY < currentCheckedYPosition)	//  if mouseY is above currentCheckedYPosition
 			{
-				currentCheckedYPosition -= hoveredVector->GetHeight();	
+				//currentCheckedYPosition -= hoveredVector->GetHeight();	
 				// Pick up top card
 				for (unsigned int i = 1; i < hoveredVector->GetPileSize(); ++i)
 				{
@@ -215,8 +215,12 @@ void Canvas::PickUpCards()
 						for (int j = 0; j < i + 1; ++j)
 						{
 							// create selectedCard for transferring
-							selectedCard = hoveredVector->RemoveTop();
-							hand->AddCard(selectedCard);
+							selectedCard = hoveredVector->PeekTop();
+							if (selectedCard->GetIsDiscovered() == true)
+							{
+								selectedCard = hoveredVector->RemoveTop();
+								hand->AddCard(selectedCard);
+							}
 						}
 						hand->ReverseOrder();
 						return;
@@ -226,6 +230,15 @@ void Canvas::PickUpCards()
 					
 				}
 				
+			}
+			else
+			{
+				selectedCard = hoveredVector->PeekTop();
+				if (selectedCard->GetIsDiscovered() == true)
+				{
+					selectedCard = hoveredVector->RemoveTop();
+					hand->AddCard(selectedCard);
+				}
 			}
 
 
@@ -249,7 +262,7 @@ bool Canvas::CanPlaceCards(Card * card)
 	}
 
 	// If the first card of the hand is a king and the hovered vector is empty. King can be placed.
-	if ((topCard == nullptr) && (cardNumber = 13))
+	if ((topCard == nullptr) && (cardNumber == 12))
 	{
 		return true;
 	}
