@@ -385,7 +385,7 @@ bool Canvas::GameLost()
 		int size = vectorPiles[i]->GetPileSize();
 		int pos = 0;
 
-		tempCard = vectorPiles[i]->PeekFront();
+		tempCard = vectorPiles[i]->PeekTop();
 		
 		// Iterate through all undiscovered cards.
 		while (tempCard->GetIsDiscovered() == false)
@@ -439,7 +439,7 @@ bool Canvas::GameLost()
 				{
 				case 0:	// CLUB
 				{
-					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit == DIAMOND))
+					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit() == DIAMOND))
 					{
 						++movesAvailable;
 					}
@@ -465,7 +465,7 @@ bool Canvas::GameLost()
 
 				case 2: // SPADE
 				{
-					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit == DIAMOND))
+					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit() == DIAMOND))
 					{
 						++movesAvailable;
 					}
