@@ -139,18 +139,22 @@
     <ClCompile Include="canvas.cpp" />
     <ClCompile Include="Card.cpp" />
     <ClCompile Include="DeckPile.cpp" />
+    <ClCompile Include="Pile.cpp" />
     <ClCompile Include="Shuffler.cpp" />
     <ClCompile Include="VectorPile.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="WinPile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="backbuffer.h" />
     <ClInclude Include="canvas.h" />
     <ClInclude Include="Card.h" />
     <ClInclude Include="DeckPile.h" />
+    <ClInclude Include="Pile.h" />
     <ClInclude Include="Shuffler.h" />
     <ClInclude Include="VectorPile.h" />
     <ClInclude Include="resource.h" />
+    <ClInclude Include="WinPile.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Solitaire.rc" />

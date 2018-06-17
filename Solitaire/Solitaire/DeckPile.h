@@ -2,14 +2,15 @@
 
 #include <vector>
 #include <Windows.h>
+#include "Pile.h"
 
 class Card;
 
-class DeckPile
+class DeckPile : public Pile
 {
 public:
 	DeckPile(int xLocation, int yLocation, bool visibility);
-	~DeckPile();
+	virtual ~DeckPile();
 	
 	int GetXLocation() const;
 	int GetYLocation() const;
@@ -18,10 +19,10 @@ public:
 	int GetVisibility() const;
 
 	void SetLocation(int xLocation, int yLocation);
-	void SetVisibility(bool visibility);
+	virtual void SetVisibility(bool visibility);
 	int GetPileSize() const;
-	void AddCard(Card * card);
-	void Draw(HDC hdc, bool isHandEmpty);
+	virtual void AddCard(Card * card);
+	virtual void Draw(HDC hdc);
 	Card * RemoveTop();
 
 

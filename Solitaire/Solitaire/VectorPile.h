@@ -1,15 +1,16 @@
 #pragma once
 
+#include "Pile.h"
 #include <vector>
 #include <Windows.h>
 
 class Card;
 
-class VectorPile
+class VectorPile : public Pile
 {
 public:
 	VectorPile(int xLocation, int yLocation);
-	~VectorPile();
+	virtual ~VectorPile();
 
 	int GetXLocation() const;
 	int GetYLocation() const;
@@ -17,14 +18,16 @@ public:
 	int GetHeight() const;
 
 	int GetFaceDownCards() const;
+	virtual void SetVisibility(bool visibility); // For failed card placement
 	void SetFaceDownCards(int number);
 	void SetLocation(int xLocation, int yLocation);
 
 	int GetPileSize() const;
 
-	void AddCard(Card * card);
-	void Draw(HDC hdc);
+	virtual void AddCard(Card * card);
+	virtual void Draw(HDC hdc);
 	Card * RemoveTop();
+	Card * GetTopCard();
 
 private:
 	std::vector<Card*> cardPile;

@@ -63,7 +63,7 @@ void DeckPile::AddCard(Card * card)
 	cardPile.push_back(card);
 }
 
-void DeckPile::Draw(HDC hdc, bool isHandEmpty)
+void DeckPile::Draw(HDC hdc)
 {
 	HBRUSH backgroundBrush = CreateSolidBrush(RGB(0, 128, 0));
 
@@ -82,15 +82,7 @@ void DeckPile::Draw(HDC hdc, bool isHandEmpty)
 		}
 		else
 		{
-			
-			if (isHandEmpty)
-			{
-				cardPile.back()->Draw(hdc, xLocation, yLocation);
-			}
-			else
-			{
-				cardPile.back()->DrawCardBack(hdc, xLocation, yLocation);
-			}
+			cardPile.back()->Draw(hdc, xLocation, yLocation);
 		}
 		
 	}

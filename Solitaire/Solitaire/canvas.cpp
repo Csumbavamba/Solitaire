@@ -4,8 +4,12 @@
 #include "Card.h"
 #include "VectorPile.h"
 #include "Shuffler.h"
+#include "Pile.h"
+#include "WinPile.h"
+
 #include <vector>
 #include <algorithm>
+
 
 Canvas::Canvas()
 {
@@ -35,6 +39,11 @@ bool Canvas::Initialise(HWND hwnd, int width, int height)
 			vectorPiles[i]->SetFaceDownCards(i);
 		}
 		
+	}
+
+	for (int i = 0; i < 4; ++i)
+	{
+		winPiles[i] = new WinPile(248 + i * 80, 8);
 	}
 
 	playableDeck->SetLocation(88, 8);
@@ -69,13 +78,18 @@ bool Canvas::Draw()
 	backBuffer->Clear();
 
 	// Draw deck
-	staticDeck->Draw(backBuffer->GetBFDC(), IsHandEmpty());
-	playableDeck->Draw(backBuffer->GetBFDC(), IsHandEmpty());
+	staticDeck->Draw(backBuffer->GetBFDC());
+	playableDeck->Draw(backBuffer->GetBFDC());
 
 	// Do drawing here
 	for (VectorPile * vectorPile : vectorPiles)
 	{
 		vectorPile->Draw(backBuffer->GetBFDC());
+	}
+
+	for (WinPile * winPile : winPiles)
+	{
+		winPile->Draw(backBuffer->GetBFDC());
 	}
 
 	if (hand->GetPileSize() > 0)
@@ -141,11 +155,15 @@ return bottomY;
 
 }
 
-bool Canvas::IsHandEmpty()
+
+Pile * Canvas::GetPileWithLastInteraction()
 {
-	if (hand->GetPileSize() == 0)
-		return true;
-	return false;
+	return pileWithLastInteraction;
+}
+
+void Canvas::SetPileWithLastInteraction(Pile * interactedPile)
+{
+	this->pileWithLastInteraction = interactedPile;
 }
 
 
@@ -155,6 +173,7 @@ void Canvas::PlaceCards()
 {
 	// Get the vectorPile I'm hovering over
 	VectorPile * hoveredVector = GetHoveredOverVectorPile();
+	WinPile * hoveredWinPile = GetHoveredOverWinPile();
 
 	if (hoveredVector != nullptr)
 	{
@@ -165,13 +184,53 @@ void Canvas::PlaceCards()
 			Card * selectedCard = hand->RemoveTop();
 			hoveredVector->AddCard(selectedCard);
 
-			// Move selectedCard into hand
-			// if (selectedCard != nullptr)
+			// if (i == 0)
+			{
+				pileWithLastInteraction->SetVisibility(true);
+			}
+		}
+	}
+	else if (hoveredWinPile != nullptr)
+	{
+		Card * selectedCard = hand->GetTopCard();
+		int size = hand->GetPileSize();
 
+		// If it can be placed, and we are only having one card in the hand, place it
+		if (hoveredWinPile->isValidPlacement(selectedCard) && hand->GetPileSize() == 1)
+		{
+			hoveredWinPile->AddCard(selectedCard);
+			hand->RemoveTop();
+			pileWithLastInteraction->SetVisibility(true);
+		}
+		else
+		{
+			// Otherwise place all cards back to their original location
+			for (int i = 0; i < size; ++i)
+			{
+				selectedCard = hand->GetTopCard();
+				pileWithLastInteraction->AddCard(selectedCard);
+				hand->RemoveTop();
+			}
 		}
 
+		
+	}
+	else
+	{
+		// Place card back to last interacted Pile
 
-
+		int size = hand->GetPileSize();
+		// create selectedCard for transferring
+		for (int i = 0; i < size; ++i)
+		{
+			Card * selectedCard = hand->RemoveTop();
+			pileWithLastInteraction->AddCard(selectedCard);
+			
+			// Reveal card underneath
+			playableDeck->SetVisibility(true);
+		}
+		
+		
 	}
 }
 
@@ -190,12 +249,10 @@ void Canvas::PickUpCards()
 			// If your hand is not holding anything currently
 			if (hand->GetPileSize() == 0)
 			{
-				// int bottomY = GetBottomLocationOfPile(hoveredVector);
 				int currentCheckedYPosition = GetBottomLocationOfPile(hoveredVector) - hoveredVector->GetHeight();
 				// Check from the bottom how many cards should be collected
 				if (mouseY < currentCheckedYPosition)
 				{
-					// currentCheckedYPosition -= hoveredVector->GetHeight();
 
 					// Pick up top card
 
@@ -213,15 +270,24 @@ void Canvas::PickUpCards()
 							{
 								selectedCard = hoveredVector->RemoveTop();
 								hand->AddCard(selectedCard);
+								
 							}
+
+							SetPileWithLastInteraction(hoveredVector);
+							hoveredVector->SetFaceDownCards(hoveredVector->GetFaceDownCards());
+							
 							return;
 						}
 					}
 				}
+				// If the it is only one that we want to select
 				else
 				{
 					selectedCard = hoveredVector->RemoveTop();
 					hand->AddCard(selectedCard);
+
+					SetPileWithLastInteraction(hoveredVector);
+					hoveredVector->SetFaceDownCards(hoveredVector->GetFaceDownCards());
 				}
 			}
 		}
@@ -286,6 +352,8 @@ void Canvas::SelectCorrespondingActionForDeck()
 	{
 		// move top of playable  deck to hand
 		hand->AddCard(playableDeck->RemoveTop());
+		playableDeck->SetVisibility(false);
+		SetPileWithLastInteraction(GetHoveredOverDeck());
 	}
 }
 
@@ -297,4 +365,38 @@ void Canvas::MoveCardsBackToStaticDeck()
 		Card * cardToBeMoved = playableDeck->RemoveTop();
 		staticDeck->AddCard(cardToBeMoved);
 	}
+}
+
+
+// Stack
+
+WinPile * Canvas::GetHoveredOverWinPile()
+{
+	WinPile * correspondingWinPile = nullptr;
+
+	for (int i = 0; i < 4; ++i)
+	{
+		// If We hover over the winPile return it
+		if ((mouseX > winPiles[i]->GetXLocation()) &&
+			(mouseX < winPiles[i]->GetXLocation() + 71) &&
+			(mouseY > winPiles[i]->GetYLocation()) &&
+			(mouseY < winPiles[i]->GetYLocation() + 96))
+		{
+			correspondingWinPile = winPiles[i];
+		}
+	}
+	
+	return correspondingWinPile;
+}
+
+bool Canvas::CheckIfTheGameIsWon()
+{
+	for (WinPile * winPile : winPiles)
+	{
+		if (winPile->GetPileSize() != 13)
+		{
+			return false;
+		}
+	}
+	return true;
 }

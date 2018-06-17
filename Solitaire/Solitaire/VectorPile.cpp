@@ -40,6 +40,23 @@ int VectorPile::GetFaceDownCards() const
 	return faceDownCards;
 }
 
+void VectorPile::SetVisibility(bool visibility)
+{
+	if (visibility)
+	{
+		// Reveal the card below if placing was successful
+		if (faceDownCards == cardPile.size())
+		{
+			faceDownCards -= 1;
+		}
+	}
+	else
+	{
+		// Don't reveal card underneath if placing was unsuccessful
+		faceDownCards = cardPile.size();
+	}
+}
+
 void VectorPile::SetFaceDownCards(int number)
 {
 	this->faceDownCards = number;
@@ -104,19 +121,14 @@ Card * VectorPile::RemoveTop()
 	Card * temp = cardPile.back();
 	cardPile.pop_back();
 
-	// Decrease faceDownCards size if needed
-	if (cardPile.size() <= faceDownCards)
-	{ 
-		if (faceDownCards == 0)
-		{
-			// Do nothing
-		}
-		else
-		{
-			SetFaceDownCards(faceDownCards - 1);
-		}
-		
-	}
+	return temp;
+}
+
+Card * VectorPile::GetTopCard()
+{
+	if (cardPile.empty()) { return nullptr; }
+
+	Card * temp = cardPile.back();
 
 	return temp;
 }

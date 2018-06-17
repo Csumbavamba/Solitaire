@@ -23,9 +23,11 @@ Mail        :   [your.name]@mediadesign.school.nz
 #include <vector>
 
 class Card;
+class WinPile;
 class VectorPile;
 class DeckPile;
 class Shuffler;
+class Pile;
 
 class Canvas
 {
@@ -39,7 +41,8 @@ public:
 	void SetMousePosition(int mouseX, int mouseY);
 	VectorPile * GetHoveredOverVectorPile();
 	int GetBottomLocationOfPile(VectorPile * hoveredVectorPile) const;
-	bool IsHandEmpty();
+	Pile * GetPileWithLastInteraction();
+	void SetPileWithLastInteraction(Pile * interactedPile);
 
 	// For testing
 	void PlaceCards();
@@ -50,16 +53,23 @@ public:
 	void SelectCorrespondingActionForDeck();
 	void MoveCardsBackToStaticDeck();
 
+	// For Stacks
+	WinPile * GetHoveredOverWinPile();
+	bool CheckIfTheGameIsWon();
+
 private:
-	CBackBuffer* backBuffer = nullptr; // A canvas has a backbuffer.
 	std::vector<Card*> cards;
-	DeckPile * staticDeck;
-	DeckPile * playableDeck;
-	Shuffler * shuffler;
-	VectorPile * vectorPiles [7];
+	WinPile * winPiles[4];
+	VectorPile * vectorPiles[7];
+	DeckPile * staticDeck = nullptr;
+	DeckPile * playableDeck = nullptr;
+	Shuffler * shuffler = nullptr;
 	VectorPile * hand = nullptr;
+	Pile * pileWithLastInteraction = nullptr;
+
 	HDC hdc;
 	HWND hwnd;
+	CBackBuffer* backBuffer = nullptr; // A canvas has a backbuffer.
 	int mouseX;
 	int mouseY;
 	int handOffsetX;
