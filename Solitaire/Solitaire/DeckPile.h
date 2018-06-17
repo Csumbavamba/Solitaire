@@ -1,41 +1,33 @@
 #pragma once
 
-#include "Pile.h"
 #include <vector>
 #include <Windows.h>
+#include "Pile.h"
 
 class Card;
 
-class VectorPile : public Pile
+class DeckPile : public Pile
 {
 public:
-	VectorPile(int xLocation, int yLocation);
-	virtual ~VectorPile();
-
+	DeckPile(int xLocation, int yLocation, bool visibility);
+	virtual ~DeckPile();
+	
 	int GetXLocation() const;
 	int GetYLocation() const;
 	int GetWidth() const;
 	int GetHeight() const;
+	int GetVisibility() const;
 
-	int GetFaceDownCards() const;
-	virtual void SetVisibility(bool visibility); // For failed card placement
-	void SetFaceDownCards(int number);
 	void SetLocation(int xLocation, int yLocation);
-
+	virtual void SetVisibility(bool visibility);
 	int GetPileSize() const;
-
 	virtual void AddCard(Card * card);
 	virtual void Draw(HDC hdc);
 	Card * RemoveTop();
-	Card * GetTopCard();
 
-	// @@Sunny
-	void ReverseOrder();
-	Card * PeekTop();
-	Card * PeekFront();
-	Card * IterateOne(Card * card, int position);
 
 private:
+
 	std::vector<Card*> cardPile;
 	int xLocation;
 	int yLocation;
@@ -43,6 +35,6 @@ private:
 	const int width = 71;
 	const int height = 96;
 
-	int faceDownCards;
+	bool visibility;
 };
 

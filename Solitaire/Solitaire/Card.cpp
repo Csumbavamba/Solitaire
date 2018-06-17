@@ -9,6 +9,7 @@ Card::Card(Suit suit, int cardNumber)
 {
 	this->cardNumber = cardNumber;
 	this->suit = suit;
+	isDiscovered = false;
 }
 
 
@@ -64,4 +65,14 @@ void Card::DrawCardBack(HDC hdc, int drawX, int drawY)
 	// BitBlt(hdc, drawX, drawY, 71, 96, bitmapHDC, cardNumber * 73 + 1, suit * 98 + 1, SRCCOPY);
 
 	DeleteDC(bitmapHDC);
+}
+
+void Card::SetIsDiscovered(bool discovered)
+{
+	isDiscovered = discovered;
+}
+
+bool Card::GetIsDiscovered() const
+{
+	return isDiscovered;
 }

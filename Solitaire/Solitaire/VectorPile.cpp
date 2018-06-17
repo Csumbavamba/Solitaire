@@ -40,6 +40,23 @@ int VectorPile::GetFaceDownCards() const
 	return faceDownCards;
 }
 
+void VectorPile::SetVisibility(bool visibility)
+{
+	if (visibility)
+	{
+		// Reveal the card below if placing was successful
+		if (faceDownCards == cardPile.size())
+		{
+			faceDownCards -= 1;
+		}
+	}
+	else
+	{
+		// Don't reveal card underneath if placing was unsuccessful
+		faceDownCards = cardPile.size();
+	}
+}
+
 void VectorPile::SetFaceDownCards(int number)
 {
 	this->faceDownCards = number;
@@ -81,15 +98,17 @@ void VectorPile::Draw(HDC hdc)
 		{
 			// Compare the facedown number with the iteration of the loop
 			// If i smaller than the number of hidden cards -> draw facedown card
-			if (i < faceDownCards)
+			if ((int)i < faceDownCards)
 			{
 				//::Rectangle(hdc, xLocation, yLocation + i * 19, xLocation + width, yLocation + height + i * 19);
 				cardPile[i]->DrawCardBack(hdc, xLocation, yLocation + i * 19);
+				cardPile[i]->SetIsDiscovered(false);
 			}
 			// Otherwise draw card
 			else
 			{
 				cardPile[i]->Draw(hdc, xLocation, yLocation + i * 19);
+				cardPile[i]->SetIsDiscovered(true);
 			}
 		}
 		
@@ -104,19 +123,45 @@ Card * VectorPile::RemoveTop()
 	Card * temp = cardPile.back();
 	cardPile.pop_back();
 
-	// Decrease faceDownCards size if needed
-	if (cardPile.size() <= faceDownCards)
-	{ 
-		if (faceDownCards == 0)
-		{
-			// Do nothing
-		}
-		else
-		{
-			SetFaceDownCards(faceDownCards - 1);
-		}
-		
-	}
+	return temp;
+}
+
+Card * VectorPile::GetTopCard()
+{
+	if (cardPile.empty()) { return nullptr; }
+
+	Card * temp = cardPile.back();
 
 	return temp;
+}
+
+
+void VectorPile::ReverseOrder()
+{
+	if (cardPile.empty()) { return; }
+	std::reverse(cardPile.begin(), cardPile.end());
+}
+
+Card * VectorPile::PeekTop()
+{
+	if (cardPile.empty()) { return nullptr; }
+
+	Card * temp = cardPile.back();
+	return temp;
+}
+
+Card * VectorPile::PeekFront()
+{
+	if (cardPile.empty()) { return nullptr; }
+
+	Card * temp = cardPile.front();
+	return temp;
+}
+
+Card * VectorPile::IterateOne(Card * card, int position)
+{
+	if (cardPile.empty()) { return nullptr; }
+	card = cardPile.at(position);
+
+	return card;
 }

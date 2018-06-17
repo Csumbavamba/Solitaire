@@ -1,5 +1,6 @@
 #include <windows.h>   // Include all the windows headers.
 #include <windowsx.h>  // Include useful macros.
+#include <time.h>
 
 #include "canvas.h"
 #include "VectorPile.h"
@@ -72,10 +73,26 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 		return(0);
 	}
 
-	case WM_RBUTTONDOWN:
+	case WM_LBUTTONUP:
 	{
 		globalCanvas->PlaceCards();
-		return(0);
+
+		// If Game Offer to Play again
+		if (globalCanvas->CheckIfTheGameIsWon())
+		{
+			Sleep(200);
+			int choice = MessageBox(NULL, (LPCWSTR)L"Do you want to play again?", (LPCWSTR)L"Victory!!", MB_ICONASTERISK || MB_YESNO || MB_DEFBUTTON1);
+			
+			if (choice == 1)
+			{
+				PostMessage(hwnd, WM_COMMAND, ID_MENU_NEWGAME, 0);
+			}
+			else
+			{
+				PostQuitMessage(0);
+			}
+		}
+		return (0);
 	}
 
 	case WM_MOUSEMOVE:
@@ -97,6 +114,9 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 		{
 		case ID_MENU_NEWGAME:
 		{
+			delete globalCanvas;
+			globalCanvas = new Canvas();
+			globalCanvas->Initialise(hwnd, 1500, 800);
 
 			break;
 		}
