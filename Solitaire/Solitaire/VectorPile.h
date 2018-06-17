@@ -29,6 +29,12 @@ public:
 	Card * RemoveTop();
 	Card * GetTopCard();
 
+	// @@Sunny
+	void ReverseOrder();
+	Card * PeekTop();
+	Card * PeekFront();
+	Card * IterateOne(Card * card, int position);
+
 private:
 	std::vector<Card*> cardPile;
 	int xLocation;

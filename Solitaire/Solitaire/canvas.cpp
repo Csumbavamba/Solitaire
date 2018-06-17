@@ -175,9 +175,11 @@ void Canvas::PlaceCards()
 	VectorPile * hoveredVector = GetHoveredOverVectorPile();
 	WinPile * hoveredWinPile = GetHoveredOverWinPile();
 
-	if (hoveredVector != nullptr)
+	if (hoveredVector != nullptr && CanPlaceCards(hand->PeekFront()) == true)
 	{
 		int size = hand->GetPileSize();
+		hand->ReverseOrder();
+
 		// create selectedCard for transferring
 		for (int i = 0; i < size; ++i)
 		{
@@ -220,6 +222,7 @@ void Canvas::PlaceCards()
 		// Place card back to last interacted Pile
 
 		int size = hand->GetPileSize();
+		hand->ReverseOrder();
 		// create selectedCard for transferring
 		for (int i = 0; i < size; ++i)
 		{
@@ -266,13 +269,19 @@ void Canvas::PickUpCards()
 						}
 						else
 						{
+							
 							for (int j = 0; j < i + 1; ++j)
 							{
-								selectedCard = hoveredVector->RemoveTop();
-								hand->AddCard(selectedCard);
-								
+								selectedCard = hoveredVector->GetTopCard();
+
+								if (selectedCard->GetIsDiscovered() == true)
+								{
+									selectedCard = hoveredVector->RemoveTop();
+									hand->AddCard(selectedCard);
+								}
 							}
 
+							hand->ReverseOrder(); // TODO Might not be needed
 							SetPileWithLastInteraction(hoveredVector);
 							hoveredVector->SetFaceDownCards(hoveredVector->GetFaceDownCards());
 							
@@ -399,4 +408,112 @@ bool Canvas::CheckIfTheGameIsWon()
 		}
 	}
 	return true;
+}
+
+bool Canvas::CanPlaceCards(Card * card)
+{
+	if (card == nullptr) { return false; }
+
+	Suit cardSuit = card->GetSuit();
+	int cardNumber = card->GetCardNumber();
+
+	VectorPile * hoveredVector = GetHoveredOverVectorPile();
+	Card * topCard = hoveredVector->PeekTop();
+
+	if (hoveredVector == nullptr)
+	{
+		return false;
+	}
+
+	// If the first card of the hand is a king and the hovered vector is empty. King can be placed.
+	if ((topCard == nullptr) && (cardNumber == 12))
+	{
+		return true;
+	}
+	// Otherwise, return false
+	else if (topCard == nullptr)
+	{
+		return false;
+	}
+	
+	else
+	{
+		switch (cardSuit)
+		{
+		case 0:		// CLUB
+		{
+			if ((topCard->GetSuit() == HEART) || (topCard->GetSuit() == DIAMOND))
+			{
+				// If your front cards number is 1 less than the card you want to place on
+				if (cardNumber == topCard->GetCardNumber() - 1)
+				{
+					return true;
+				}
+				return false;
+			}
+			else
+			{
+				return false;
+			}
+			break;
+		}
+
+		case 1:		// HEART
+		{
+			if ((topCard->GetSuit() == CLUB) || (topCard->GetSuit() == SPADE))
+			{
+				// If your front cards number is 1 less than the card you want to place on
+				if (cardNumber == topCard->GetCardNumber() - 1)
+				{
+					return true;
+				}
+				return false;
+			}
+			else
+			{
+				return false;
+			}
+			break;
+		}
+
+		case 2:		// SPADE
+		{
+			if ((topCard->GetSuit() == HEART) || (topCard->GetSuit() == DIAMOND))
+			{
+				// If your front cards number is 1 less than the card you want to place on
+				if (cardNumber == topCard->GetCardNumber() - 1)
+				{
+					return true;
+				}
+				return false;
+			}
+			else
+			{
+				return false;
+			}
+			break;
+		}
+
+		case 3:		// DIAMOND
+		{
+			if ((topCard->GetSuit() == CLUB) || (topCard->GetSuit() == SPADE))
+			{
+				// If your front cards number is 1 less than the card you want to place on
+				if (cardNumber == topCard->GetCardNumber() - 1)
+				{
+					return true;
+				}
+				return false;
+			}
+			else
+			{
+				return false;
+			}
+			break;
+		}
+		}
+	}
+	
+
+	return false;
 }

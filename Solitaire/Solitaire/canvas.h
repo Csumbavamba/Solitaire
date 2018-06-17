@@ -57,6 +57,10 @@ public:
 	WinPile * GetHoveredOverWinPile();
 	bool CheckIfTheGameIsWon();
 
+	// @@@@@ SUNNY
+	bool CanPlaceCards(Card * card);
+	bool GameLost();
+
 private:
 	std::vector<Card*> cards;
 	WinPile * winPiles[4];

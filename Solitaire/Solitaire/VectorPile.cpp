@@ -102,11 +102,13 @@ void VectorPile::Draw(HDC hdc)
 			{
 				//::Rectangle(hdc, xLocation, yLocation + i * 19, xLocation + width, yLocation + height + i * 19);
 				cardPile[i]->DrawCardBack(hdc, xLocation, yLocation + i * 19);
+				cardPile[i]->SetIsDiscovered(false);
 			}
 			// Otherwise draw card
 			else
 			{
 				cardPile[i]->Draw(hdc, xLocation, yLocation + i * 19);
+				cardPile[i]->SetIsDiscovered(true);
 			}
 		}
 		
@@ -131,4 +133,35 @@ Card * VectorPile::GetTopCard()
 	Card * temp = cardPile.back();
 
 	return temp;
+}
+
+
+void VectorPile::ReverseOrder()
+{
+	if (cardPile.empty()) { return; }
+	std::reverse(cardPile.begin(), cardPile.end());
+}
+
+Card * VectorPile::PeekTop()
+{
+	if (cardPile.empty()) { return nullptr; }
+
+	Card * temp = cardPile.back();
+	return temp;
+}
+
+Card * VectorPile::PeekFront()
+{
+	if (cardPile.empty()) { return nullptr; }
+
+	Card * temp = cardPile.front();
+	return temp;
+}
+
+Card * VectorPile::IterateOne(Card * card, int position)
+{
+	if (cardPile.empty()) { return nullptr; }
+	card = cardPile.at(position);
+
+	return card;
 }
