@@ -349,3 +349,155 @@ bool Canvas::CanPlaceCards(Card * card)
 
 	return false;
 }
+
+bool Canvas::GameLost()
+{
+	int movesAvailable = 0;
+	Card * tempCard = nullptr;
+	//Card * visibleCardStackStart1 = nullptr;
+	//Card * visibleCardStackStart2 = nullptr;
+	//Card * visibleCardStackStart3 = nullptr;
+	//Card * visibleCardStackStart4 = nullptr;
+	//Card * visibleCardStackStart5 = nullptr;
+	//Card * visibleCardStackStart6 = nullptr;
+	//Card * visibleCardStackStart7 = nullptr;
+	Card * visibleCardStackStart[7];
+	for (int i = 0; i < 7; ++i)
+	{
+		visibleCardStackStart[i] = nullptr;
+	}
+
+	//Card * lastVisibleCard1 = nullptr;
+	//Card * lastVisibleCard2 = nullptr;
+	//Card * lastVisibleCard3 = nullptr;
+	//Card * lastVisibleCard4 = nullptr;
+	//Card * lastVisibleCard5 = nullptr;
+	//Card * lastVisibleCard6 = nullptr;
+	//Card * lastVisibleCard7 = nullptr;
+	Card * lastVisibleCard[7];
+	for (int i = 0; i < 7; ++i)
+	{
+		lastVisibleCard[i] = nullptr;
+	}
+
+	for (int i = 0; i < 7; ++i)
+	{
+		int size = vectorPiles[i]->GetPileSize();
+		int pos = 0;
+
+		tempCard = vectorPiles[i]->PeekFront();
+		
+		// Iterate through all undiscovered cards.
+		while (tempCard->GetIsDiscovered() == false)
+		{
+			tempCard = vectorPiles[i]->IterateOne(tempCard, pos);
+
+			++pos;
+		}
+
+		for (int k = 0; k < 7; ++k)
+		{
+			if (visibleCardStackStart[k] == nullptr) { visibleCardStackStart[k] = tempCard; }
+		}
+		//if (visibleCardStackStart1 == nullptr) { visibleCardStackStart1 = tempCard; }
+		//if (visibleCardStackStart2 == nullptr) { visibleCardStackStart2 = tempCard; }
+		//if (visibleCardStackStart3 == nullptr) { visibleCardStackStart3 = tempCard; }
+		//if (visibleCardStackStart4 == nullptr) { visibleCardStackStart4 = tempCard; }
+		//if (visibleCardStackStart5 == nullptr) { visibleCardStackStart5 = tempCard; }
+		//if (visibleCardStackStart6 == nullptr) { visibleCardStackStart6 = tempCard; }
+		//if (visibleCardStackStart7 == nullptr) { visibleCardStackStart7 = tempCard; }
+
+		tempCard = vectorPiles[i]->PeekFront();
+
+		for (int j = 0; j < size; ++j)
+		{
+			tempCard = vectorPiles[i]->IterateOne(tempCard, j);
+		}
+		for (int k = 0; k < 7; ++k)
+		{
+			if (lastVisibleCard[k] == nullptr) { lastVisibleCard[k] = tempCard; }
+		}
+		//if (lastVisibleCard1 == nullptr) { lastVisibleCard1 = tempCard; }
+		//if (lastVisibleCard2 == nullptr) { lastVisibleCard2 = tempCard; }
+		//if (lastVisibleCard3 == nullptr) { lastVisibleCard3 = tempCard; }
+		//if (lastVisibleCard4 == nullptr) { lastVisibleCard4 = tempCard; }
+		//if (lastVisibleCard5 == nullptr) { lastVisibleCard5 = tempCard; }
+		//if (lastVisibleCard6 == nullptr) { lastVisibleCard6 = tempCard; }
+		//if (lastVisibleCard7 == nullptr) { lastVisibleCard7 = tempCard; }
+	}
+
+	//
+	for (int i = 0; i < 7; ++i)
+	{
+		int cardSuit = visibleCardStackStart[i]->GetSuit();
+
+		for (int j = 0; j < 7; ++j)
+		{
+			if (visibleCardStackStart[i]->GetCardNumber() == lastVisibleCard[j]->GetCardNumber() - 1)
+			{
+				switch (cardSuit)
+				{
+				case 0:	// CLUB
+				{
+					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit == DIAMOND))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+
+				case 1: // HEART 
+				{
+					if ((lastVisibleCard[j]->GetSuit() == SPADE) || (lastVisibleCard[j]->GetSuit() == CLUB))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+
+				case 2: // SPADE
+				{
+					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit == DIAMOND))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+
+				case 3: // DIAMOND
+				{
+					if ((lastVisibleCard[j]->GetSuit() == SPADE) || (lastVisibleCard[j]->GetSuit() == CLUB))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+				}
+			}
+		}
+	}
+
+	if (movesAvailable == 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+

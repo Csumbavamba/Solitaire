@@ -144,3 +144,11 @@ Card * VectorPile::PeekFront()
 	Card * temp = cardPile.front();
 	return temp;
 }
+
+Card * VectorPile::IterateOne(Card * card, int position)
+{
+	if (cardPile.empty()) { return nullptr; }
+	card = cardPile.at(position);
+
+	return card;
+}

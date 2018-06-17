@@ -47,6 +47,7 @@ public:
 
 	bool CanPlaceCards(Card * card);
 
+	bool GameLost();
 
 private:
 	CBackBuffer* backBuffer = nullptr; // A canvas has a backbuffer.
