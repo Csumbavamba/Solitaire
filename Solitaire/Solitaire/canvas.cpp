@@ -1,13 +1,16 @@
 #include "canvas.h"
+#include "Deck.h"
 #include "backBuffer.h"
 #include "Card.h"
 #include "VectorPile.h"
+#include "Shuffler.h"
 #include <vector>
 #include <algorithm>
 
 Canvas::Canvas()
 {
 	backBuffer = new CBackBuffer();
+	shuffler = new Shuffler();
 }
 
 Canvas::~Canvas()
@@ -19,17 +22,20 @@ bool Canvas::Initialise(HWND hwnd, int width, int height)
 {
 	this->hwnd = hwnd;
 	backBuffer->Initialise(hwnd, width, height);
+	shuffler->Initialize();
 
 	for (int i = 0; i < 7; ++i)
 	{
 		vectorPiles[i] = new VectorPile(8 + i * 80, 120);
 		for (int j = 0; j <= i; ++j)
 		{
-			vectorPiles[i]->AddCard(new Card(SPADE, i));
+			vectorPiles[i]->AddCard(shuffler->GiveRandomCard());
 			vectorPiles[i]->SetFaceDownCards(i);
 		}
 		
 	}
+
+	deck = new Deck(8, 8);
 
 	hand = new VectorPile(0, 0);
 	hand->SetFaceDownCards(0);
@@ -61,6 +67,9 @@ bool Canvas::Draw()
 
 	if (hand->GetPileSize() > 0)
 		hand->Draw(backBuffer->GetBFDC());
+
+	// Draw deck
+	deck->Draw(backBuffer->GetBFDC());
 
 	backBuffer->Present();
 
@@ -149,7 +158,7 @@ void Canvas::PlaceCards()
 	{
 		int size = hand->GetPileSize();
 		// create selectedCard for transferring
-		for (unsigned int i = 0; i < size; ++i)
+		for (int i = 0; i < size; ++i)
 		{
 			Card * selectedCard = hand->RemoveTop();
 			hoveredVector->AddCard(selectedCard);
@@ -189,7 +198,7 @@ void Canvas::PickUpCards()
 			{
 				currentCheckedYPosition -= hoveredVector->GetHeight();
 				// Pick up top card
-				for (unsigned int i = 1; i < hoveredVector->GetPileSize(); ++i)
+				for (int i = 1; i < hoveredVector->GetPileSize(); ++i)
 				{
 					// If current Y < mouseY
 					if (currentCheckedYPosition - 19 > mouseY)

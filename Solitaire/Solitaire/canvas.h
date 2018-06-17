@@ -24,6 +24,8 @@ Mail        :   [your.name]@mediadesign.school.nz
 
 class Card;
 class VectorPile;
+class Deck;
+class Shuffler;
 
 class Canvas
 {
@@ -41,13 +43,14 @@ public:
 	// For testing
 	void PickUpTopCard();
 	void PlaceCards();
-
 	void PickUpCards();
 
 
 private:
 	CBackBuffer* backBuffer = nullptr; // A canvas has a backbuffer.
 	std::vector<Card*> cards;
+	Deck * deck;
+	Shuffler * shuffler;
 	VectorPile * vectorPiles [7];
 	VectorPile * hand = nullptr;
 	HDC hdc;
