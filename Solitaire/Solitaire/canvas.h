@@ -44,6 +44,9 @@ public:
 
 	void PickUpCards();
 
+	bool CanPlaceHand(Card * card);
+	Card * GetTopCard() const;
+
 
 private:
 	CBackBuffer* backBuffer = nullptr; // A canvas has a backbuffer.

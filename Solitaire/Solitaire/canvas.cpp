@@ -219,3 +219,41 @@ void Canvas::PickUpCards()
 		}
 	}
 }
+
+bool Canvas::CanPlaceHand(Card * card)
+{
+	int cardSuit = card->GetSuit();
+	int cardNumber = card->GetCardNumber();
+
+	switch (cardSuit)
+	{
+	case 0:		// CLUB
+	{
+		
+		break;
+	}
+
+	case 1:		// HEART
+	{
+
+		break;
+	}
+
+	case 2:		// SPADE
+	{
+
+		break;
+	}
+
+	case 3:		// DIAMOND
+	{
+
+		break;
+	}
+	}
+}
+
+Card * Canvas::GetTopCard() const
+{
+	return nullptr;
+}
