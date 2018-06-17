@@ -121,14 +121,24 @@ Card * VectorPile::RemoveTop()
 	return temp;
 }
 
+void VectorPile::ReverseOrder()
+{
+	if (cardPile.empty()) { return; }
+	std::reverse(cardPile.begin(), cardPile.end());
+}
+
 Card * VectorPile::PeekTop()
 {
+	if (cardPile.empty()) { return nullptr; }
+
 	Card * temp = cardPile.back();
 	return temp;
 }
 
 Card * VectorPile::PeekFront()
 {
+	if (cardPile.empty()) { return nullptr; }
+
 	Card * temp = cardPile.front();
 	return temp;
 }

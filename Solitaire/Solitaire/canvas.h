@@ -24,6 +24,7 @@ Mail        :   [your.name]@mediadesign.school.nz
 
 class Card;
 class VectorPile;
+class Shuffler;
 
 class Canvas
 {
@@ -58,6 +59,8 @@ private:
 	int mouseY;
 	int handOffsetX;
 	int handOffsetY;
+
+	Shuffler * shuffler = nullptr;
 };
 
 #endif

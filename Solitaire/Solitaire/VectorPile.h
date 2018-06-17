@@ -26,6 +26,8 @@ public:
 	void Draw(HDC hdc);
 	Card * RemoveTop();
 
+	void ReverseOrder();
+
 	Card * PeekTop();
 	Card * PeekFront();
 

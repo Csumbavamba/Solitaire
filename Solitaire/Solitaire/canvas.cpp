@@ -4,10 +4,12 @@
 #include "VectorPile.h"
 #include <vector>
 #include <algorithm>
+#include "Shuffler.h"
 
 Canvas::Canvas()
 {
 	backBuffer = new CBackBuffer();
+	shuffler = new Shuffler();
 }
 
 Canvas::~Canvas()
@@ -19,13 +21,17 @@ bool Canvas::Initialise(HWND hwnd, int width, int height)
 {
 	this->hwnd = hwnd;
 	backBuffer->Initialise(hwnd, width, height);
+	shuffler->Initialize();
 
 	for (int i = 0; i < 7; ++i)
 	{
 		vectorPiles[i] = new VectorPile(8 + i * 80, 120);
 		for (int j = 0; j <= i; ++j)
 		{
-			vectorPiles[i]->AddCard(new Card(SPADE, i));
+			//vectorPiles[i]->AddCard(new Card(SPADE, i));
+			Card * temp = shuffler->GiveRandomCard();
+			vectorPiles[i]->AddCard(temp);
+
 			vectorPiles[i]->SetFaceDownCards(i);
 		}
 		
@@ -149,8 +155,10 @@ void Canvas::PlaceCards()
 	{
 		int size = hand->GetPileSize();
 
-		if (CanPlaceCards(hand->PeekTop()))
+		if (CanPlaceCards(hand->PeekFront()) == true)
 		{
+			// Reverse the order of your hand so it places the front card first.
+			hand->ReverseOrder();
 
 			// create selectedCard for transferring
 			for (unsigned int i = 0; i < size; ++i)
@@ -210,6 +218,7 @@ void Canvas::PickUpCards()
 							selectedCard = hoveredVector->RemoveTop();
 							hand->AddCard(selectedCard);
 						}
+						hand->ReverseOrder();
 						return;
 						
 						
@@ -227,6 +236,7 @@ void Canvas::PickUpCards()
 
 bool Canvas::CanPlaceCards(Card * card)
 {
+	// Sometimes it crashes at the start here - cardSuit is nullptr. No idea why
 	int cardSuit = card->GetSuit();
 	int cardNumber = card->GetCardNumber();
 
@@ -237,7 +247,14 @@ bool Canvas::CanPlaceCards(Card * card)
 	{
 		return false;
 	}
-	if (topCard == nullptr)
+
+	// If the first card of the hand is a king and the hovered vector is empty. King can be placed.
+	if ((topCard == nullptr) && (cardNumber = 13))
+	{
+		return true;
+	}
+	// Otherwise, return false
+	else if (topCard == nullptr)
 	{
 		return false;
 	}
