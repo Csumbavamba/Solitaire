@@ -44,8 +44,7 @@ public:
 
 	void PickUpCards();
 
-	bool CanPlaceHand(Card * card);
-	Card * GetTopCard() const;
+	bool CanPlaceCards(Card * card);
 
 
 private:

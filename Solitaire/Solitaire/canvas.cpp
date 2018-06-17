@@ -148,15 +148,20 @@ void Canvas::PlaceCards()
 	if (hoveredVector != nullptr)
 	{
 		int size = hand->GetPileSize();
-		// create selectedCard for transferring
-		for (unsigned int i = 0; i < size; ++i)
-		{
-			Card * selectedCard = hand->RemoveTop();
-			hoveredVector->AddCard(selectedCard);
 
-			// Move selectedCard into hand
-			// if (selectedCard != nullptr)
-				
+		if (CanPlaceCards(hand->PeekTop()))
+		{
+
+			// create selectedCard for transferring
+			for (unsigned int i = 0; i < size; ++i)
+			{
+				Card * selectedCard = hand->RemoveTop();
+				hoveredVector->AddCard(selectedCard);
+
+				// Move selectedCard into hand
+				// if (selectedCard != nullptr)
+
+			}
 		}
 		
 		
@@ -185,9 +190,9 @@ void Canvas::PickUpCards()
 			// int bottomY = GetBottomLocationOfPile(hoveredVector);
 			int currentCheckedYPosition = GetBottomLocationOfPile(hoveredVector);
 			// Check from the bottom how many cards should be collected
-			if (mouseY < currentCheckedYPosition)
+			if (mouseY < currentCheckedYPosition)	//  if mouseY is above currentCheckedYPosition
 			{
-				currentCheckedYPosition -= hoveredVector->GetHeight();
+				currentCheckedYPosition -= hoveredVector->GetHeight();	
 				// Pick up top card
 				for (unsigned int i = 1; i < hoveredVector->GetPileSize(); ++i)
 				{
@@ -199,7 +204,7 @@ void Canvas::PickUpCards()
 					}
 					else
 					{
-						for (int j = 0; j < i + 1; ++j)
+						for (int j = 0; j <= i; ++j)
 						{
 							// create selectedCard for transferring
 							selectedCard = hoveredVector->RemoveTop();
@@ -220,40 +225,97 @@ void Canvas::PickUpCards()
 	}
 }
 
-bool Canvas::CanPlaceHand(Card * card)
+bool Canvas::CanPlaceCards(Card * card)
 {
 	int cardSuit = card->GetSuit();
 	int cardNumber = card->GetCardNumber();
+
+	VectorPile * hoveredVector = GetHoveredOverVectorPile();
+	Card * topCard = hoveredVector->PeekTop();
+
+	if (hoveredVector == nullptr)
+	{
+		return false;
+	}
+	if (topCard == nullptr)
+	{
+		return false;
+	}
 
 	switch (cardSuit)
 	{
 	case 0:		// CLUB
 	{
-		
+		if ((topCard->GetSuit() == HEART) || (topCard->GetSuit() == DIAMOND))
+		{
+			// If your front cards number is 1 less than the card you want to place on
+			if (cardNumber == topCard->GetCardNumber() - 1)
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
 		break;
 	}
 
 	case 1:		// HEART
 	{
-
+		if ((topCard->GetSuit() == CLUB) || (topCard->GetSuit() == SPADE))
+		{
+			// If your front cards number is 1 less than the card you want to place on
+			if (cardNumber == topCard->GetCardNumber() - 1)
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
 		break;
 	}
 
 	case 2:		// SPADE
 	{
-
+		if ((topCard->GetSuit() == HEART) || (topCard->GetSuit() == DIAMOND))
+		{
+			// If your front cards number is 1 less than the card you want to place on
+			if (cardNumber == topCard->GetCardNumber() - 1)
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
 		break;
 	}
 
 	case 3:		// DIAMOND
 	{
-
+		if ((topCard->GetSuit() == CLUB) || (topCard->GetSuit() == SPADE))
+		{
+			// If your front cards number is 1 less than the card you want to place on
+			if (cardNumber == topCard->GetCardNumber() - 1)
+			{
+				return true;
+			}
+			return false;
+		}
+		else
+		{
+			return false;
+		}
 		break;
 	}
 	}
-}
 
-Card * Canvas::GetTopCard() const
-{
-	return nullptr;
+	return false;
 }

@@ -120,3 +120,15 @@ Card * VectorPile::RemoveTop()
 
 	return temp;
 }
+
+Card * VectorPile::PeekTop()
+{
+	Card * temp = cardPile.back();
+	return temp;
+}
+
+Card * VectorPile::PeekFront()
+{
+	Card * temp = cardPile.front();
+	return temp;
+}

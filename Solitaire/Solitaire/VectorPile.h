@@ -26,6 +26,9 @@ public:
 	void Draw(HDC hdc);
 	Card * RemoveTop();
 
+	Card * PeekTop();
+	Card * PeekFront();
+
 private:
 	std::vector<Card*> cardPile;
 	int xLocation;
