@@ -204,7 +204,7 @@ void Canvas::PickUpCards()
 					}
 					else
 					{
-						for (int j = 0; j <= i; ++j)
+						for (int j = 0; j < i + 1; ++j)
 						{
 							// create selectedCard for transferring
 							selectedCard = hoveredVector->RemoveTop();
