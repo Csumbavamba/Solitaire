@@ -30,10 +30,10 @@
     <ClCompile Include="VectorPile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Deck.cpp">
+    <ClCompile Include="Shuffler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Shuffler.cpp">
+    <ClCompile Include="DeckPile.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -53,10 +53,10 @@
     <ClInclude Include="VectorPile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Deck.h">
+    <ClInclude Include="Shuffler.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Shuffler.h">
+    <ClInclude Include="DeckPile.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

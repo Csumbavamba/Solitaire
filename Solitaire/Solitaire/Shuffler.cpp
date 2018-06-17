@@ -47,12 +47,13 @@ Card * Shuffler::GiveRandomCard()
 {
 	Card * cardToGive = nullptr;
 
-	// Get a random card from the available cards
+	if (!availableCards.empty())
+	{
+		// Get a random card from the available cards
+		cardToGive = availableCards.back();
+		// Remove that card from the deck
+		availableCards.pop_back();
+	}
 	
-	cardToGive = availableCards.back();
-
-	// Remove that card from the deck
-	availableCards.pop_back();
-
 	return cardToGive;
 }

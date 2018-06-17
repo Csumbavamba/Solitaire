@@ -138,7 +138,7 @@
     <ClCompile Include="backbuffer.cpp" />
     <ClCompile Include="canvas.cpp" />
     <ClCompile Include="Card.cpp" />
-    <ClCompile Include="Deck.cpp" />
+    <ClCompile Include="DeckPile.cpp" />
     <ClCompile Include="Shuffler.cpp" />
     <ClCompile Include="VectorPile.cpp" />
     <ClCompile Include="main.cpp" />
@@ -147,7 +147,7 @@
     <ClInclude Include="backbuffer.h" />
     <ClInclude Include="canvas.h" />
     <ClInclude Include="Card.h" />
-    <ClInclude Include="Deck.h" />
+    <ClInclude Include="DeckPile.h" />
     <ClInclude Include="Shuffler.h" />
     <ClInclude Include="VectorPile.h" />
     <ClInclude Include="resource.h" />

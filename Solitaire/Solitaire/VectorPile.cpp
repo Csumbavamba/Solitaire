@@ -81,7 +81,7 @@ void VectorPile::Draw(HDC hdc)
 		{
 			// Compare the facedown number with the iteration of the loop
 			// If i smaller than the number of hidden cards -> draw facedown card
-			if (i < faceDownCards)
+			if ((int)i < faceDownCards)
 			{
 				//::Rectangle(hdc, xLocation, yLocation + i * 19, xLocation + width, yLocation + height + i * 19);
 				cardPile[i]->DrawCardBack(hdc, xLocation, yLocation + i * 19);

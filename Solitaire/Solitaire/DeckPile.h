@@ -5,21 +5,23 @@
 
 class Card;
 
-class Deck
+class DeckPile
 {
 public:
-	Deck(int xLocation, int yLocation);
-	~Deck();
+	DeckPile(int xLocation, int yLocation, bool visibility);
+	~DeckPile();
 	
 	int GetXLocation() const;
 	int GetYLocation() const;
 	int GetWidth() const;
 	int GetHeight() const;
+	int GetVisibility() const;
 
 	void SetLocation(int xLocation, int yLocation);
+	void SetVisibility(bool visibility);
 	int GetPileSize() const;
 	void AddCard(Card * card);
-	void Draw(HDC hdc);
+	void Draw(HDC hdc, bool isHandEmpty);
 	Card * RemoveTop();
 
 
@@ -31,5 +33,7 @@ private:
 
 	const int width = 71;
 	const int height = 96;
+
+	bool visibility;
 };
 
