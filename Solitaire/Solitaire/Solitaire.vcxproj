@@ -138,6 +138,7 @@
     <ClCompile Include="backbuffer.cpp" />
     <ClCompile Include="canvas.cpp" />
     <ClCompile Include="Card.cpp" />
+    <ClCompile Include="Shuffler.cpp" />
     <ClCompile Include="VectorPile.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
@@ -145,6 +146,7 @@
     <ClInclude Include="backbuffer.h" />
     <ClInclude Include="canvas.h" />
     <ClInclude Include="Card.h" />
+    <ClInclude Include="Shuffler.h" />
     <ClInclude Include="VectorPile.h" />
     <ClInclude Include="resource.h" />
   </ItemGroup>
