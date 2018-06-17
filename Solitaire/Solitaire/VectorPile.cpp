@@ -83,7 +83,8 @@ void VectorPile::Draw(HDC hdc)
 			// If i smaller than the number of hidden cards -> draw facedown card
 			if (i < faceDownCards)
 			{
-				::Rectangle(hdc, xLocation, yLocation + i * 19, xLocation + width, yLocation + height + i * 19);
+				//::Rectangle(hdc, xLocation, yLocation + i * 19, xLocation + width, yLocation + height + i * 19);
+				cardPile[i]->DrawCardBack(hdc, xLocation, yLocation + i * 19);
 			}
 			// Otherwise draw card
 			else
@@ -102,6 +103,20 @@ Card * VectorPile::RemoveTop()
 
 	Card * temp = cardPile.back();
 	cardPile.pop_back();
+
+	// Decrease faceDownCards size if needed
+	if (cardPile.size() <= faceDownCards)
+	{ 
+		if (faceDownCards == 0)
+		{
+			// Do nothing
+		}
+		else
+		{
+			SetFaceDownCards(faceDownCards - 1);
+		}
+		
+	}
 
 	return temp;
 }

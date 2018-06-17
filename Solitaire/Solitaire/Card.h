@@ -24,6 +24,7 @@ public:
 	void SetBitmap(HBITMAP bitmap);
 
 	void Draw(HDC hdc, int drawX, int drawY);
+	void DrawCardBack(HDC hdc, int drawX, int drawY);
 	
 private:
 	Suit suit;

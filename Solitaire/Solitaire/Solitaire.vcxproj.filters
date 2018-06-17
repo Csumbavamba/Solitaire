@@ -63,5 +63,8 @@
     <Image Include="..\Assets\otherTestCard.bmp">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\Assets\cardBack.bmp">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

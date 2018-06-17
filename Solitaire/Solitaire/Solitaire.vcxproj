@@ -153,6 +153,7 @@
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Assets\aceTestCard.bmp" />
+    <Image Include="..\Assets\cardBack.bmp" />
     <Image Include="..\Assets\cards.bmp" />
     <Image Include="..\Assets\otherTestCard.bmp" />
   </ItemGroup>

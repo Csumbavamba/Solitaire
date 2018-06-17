@@ -36,10 +36,11 @@ public:
 	void AddToCards(Card * card);
 	void SetMousePosition(int mouseX, int mouseY);
 	VectorPile * GetHoveredOverVectorPile();
+	int GetBottomLocationOfPile(VectorPile * hoveredVectorPile) const;
 
 	// For testing
 	void PickUpTopCard();
-	void PlaceCard();
+	void PlaceCards();
 
 	void PickUpCards();
 

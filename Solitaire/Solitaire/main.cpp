@@ -16,6 +16,7 @@ int mouseX = 0;
 int mouseY = 0;
 
 HBITMAP cardsBitmap;
+HBITMAP cardsBackBitmap;
 
 void GameLoop()
 {
@@ -55,6 +56,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 		// Do initialization stuff here.
 		globalCanvas = new Canvas();
 		cardsBitmap = LoadBitmap(globalHandleToInstance, MAKEINTRESOURCE(IDB_BITMAP2));
+		cardsBackBitmap = LoadBitmap(globalHandleToInstance, MAKEINTRESOURCE(IDB_BITMAP4));
 
 		globalCanvas->Initialise(hwnd, 1500, 800);
 
@@ -66,13 +68,13 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 	case WM_LBUTTONDOWN:
 	{
 
-		globalCanvas->PickUpTopCard();
+		globalCanvas->PickUpCards();
 		return(0);
 	}
 
 	case WM_RBUTTONDOWN:
 	{
-		globalCanvas->PlaceCard();
+		globalCanvas->PlaceCards();
 		return(0);
 	}
 

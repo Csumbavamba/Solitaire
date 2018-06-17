@@ -32,6 +32,7 @@ bool Canvas::Initialise(HWND hwnd, int width, int height)
 	}
 
 	hand = new VectorPile(0, 0);
+	hand->SetFaceDownCards(0);
 
 	handOffsetX = 0;
 	handOffsetY = 0;
@@ -106,6 +107,22 @@ VectorPile * Canvas::GetHoveredOverVectorPile()
 	return nullptr;
 }
 
+int Canvas::GetBottomLocationOfPile(VectorPile * hoveredVectorPile) const
+{
+	if (hoveredVectorPile != nullptr)
+	{
+		int bottomY = hoveredVectorPile->GetYLocation() + hoveredVectorPile->GetHeight(); // 96
+
+		bottomY += ((hoveredVectorPile->GetPileSize() - 1) * 19); // i-1 * 19
+
+		return bottomY;
+	}
+	return 0;
+	
+}
+
+
+
 void Canvas::PickUpTopCard()
 {
 	// Get the vectorPile I'm hovering over
@@ -123,18 +140,27 @@ void Canvas::PickUpTopCard()
 		}	
 }
 
-void Canvas::PlaceCard()
+void Canvas::PlaceCards()
 {
 	// Get the vectorPile I'm hovering over
 	VectorPile * hoveredVector = GetHoveredOverVectorPile();
 
 	if (hoveredVector != nullptr)
 	{
+		int size = hand->GetPileSize();
 		// create selectedCard for transferring
-		Card * selectedCard = hand->RemoveTop();
-		// Move selectedCard into hand
-		if (selectedCard != nullptr)
+		for (unsigned int i = 0; i < size; ++i)
+		{
+			Card * selectedCard = hand->RemoveTop();
 			hoveredVector->AddCard(selectedCard);
+
+			// Move selectedCard into hand
+			// if (selectedCard != nullptr)
+				
+		}
+		
+		
+		
 	}
 }
 
@@ -142,9 +168,54 @@ void Canvas::PickUpCards()
 {
 	// Get the vectorPile I'm hovering over
 	VectorPile * hoveredVector = GetHoveredOverVectorPile();
+	Card * selectedCard = nullptr;
 
-	if ((mouseX > hoveredVector->GetXLocation()) && (mouseX < hoveredVector->GetXLocation() + 71) && (mouseY > hoveredVector->GetYLocation() + hoveredVector->GetPileSize() * 19) && (mouseY < hoveredVector->GetYLocation() + 96 + hoveredVector->GetPileSize() * 19))
+	// if it is nullptr, do nothing
+	if (hoveredVector == nullptr)
 	{
-		// PickUpTopCard();
+		return;
+	}
+
+
+	if ((mouseX > hoveredVector->GetXLocation()) && (mouseX < hoveredVector->GetXLocation() + hoveredVector->GetWidth()) && (mouseY > hoveredVector->GetYLocation()) && (mouseY < hoveredVector->GetYLocation() + 96 + (hoveredVector->GetPileSize() - 1) * 19))
+	{
+		// If your hand is not holding anything currently
+		if (hand->GetPileSize() == 0)
+		{
+			// int bottomY = GetBottomLocationOfPile(hoveredVector);
+			int currentCheckedYPosition = GetBottomLocationOfPile(hoveredVector);
+			// Check from the bottom how many cards should be collected
+			if (mouseY < currentCheckedYPosition)
+			{
+				currentCheckedYPosition -= hoveredVector->GetHeight();
+				// Pick up top card
+				for (unsigned int i = 1; i < hoveredVector->GetPileSize(); ++i)
+				{
+					// If current Y < mouseY
+					if (currentCheckedYPosition - 19 > mouseY)
+					{
+						// Increase I
+						currentCheckedYPosition -= 19;
+					}
+					else
+					{
+						for (int j = 0; j < i + 1; ++j)
+						{
+							// create selectedCard for transferring
+							selectedCard = hoveredVector->RemoveTop();
+							hand->AddCard(selectedCard);
+						}
+						return;
+						
+						
+					}
+					
+				}
+				
+			}
+
+
+
+		}
 	}
 }
