@@ -31,7 +31,7 @@ public:
 
 	// @@Sunny
 	void ReverseOrder();
-	Card * PeekTop();
+	//Card * PeekTop();
 	Card * PeekFront();
 	Card * IterateOne(Card * card, int position);
 

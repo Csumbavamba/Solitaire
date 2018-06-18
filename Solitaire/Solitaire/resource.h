@@ -8,7 +8,7 @@
 #define IDB_BITMAP3                     104
 #define IDB_BITMAP4                     105
 #define ID_MENU_NEWGAME                 40001
-#define ID_MENU_HIGHSCORE               40002
+//#define ID_MENU_HIGHSCORE               40002
 #define ID_MENU_QUIT                    40003
 
 // Next default values for new objects

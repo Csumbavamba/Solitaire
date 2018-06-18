@@ -142,13 +142,13 @@ void VectorPile::ReverseOrder()
 	std::reverse(cardPile.begin(), cardPile.end());
 }
 
-Card * VectorPile::PeekTop()
+/*Card * VectorPile::PeekTop()
 {
 	if (cardPile.empty()) { return nullptr; }
 
 	Card * temp = cardPile.back();
 	return temp;
-}
+}*/
 
 Card * VectorPile::PeekFront()
 {
@@ -161,6 +161,7 @@ Card * VectorPile::PeekFront()
 Card * VectorPile::IterateOne(Card * card, int position)
 {
 	if (cardPile.empty()) { return nullptr; }
+	if (card == nullptr) { return nullptr; }
 	card = cardPile.at(position);
 
 	return card;
