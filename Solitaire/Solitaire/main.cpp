@@ -92,6 +92,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 				PostQuitMessage(0);
 			}
 		}
+
 		return (0);
 	}
 
@@ -120,11 +121,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd,
 
 			break;
 		}
-		case ID_MENU_HIGHSCORE:
-		{
 
-			break;
-		}
 		case ID_MENU_QUIT:
 		{
 			delete globalCanvas;

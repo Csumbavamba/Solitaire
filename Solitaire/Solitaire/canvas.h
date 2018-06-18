@@ -59,7 +59,7 @@ public:
 
 	// @@@@@ SUNNY
 	bool CanPlaceCards(Card * card);
-	bool GameLost();
+	//bool GameLost();
 
 private:
 	std::vector<Card*> cards;

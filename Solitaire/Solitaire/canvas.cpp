@@ -377,7 +377,7 @@ void Canvas::MoveCardsBackToStaticDeck()
 }
 
 
-// Stack
+// WinPile
 
 WinPile * Canvas::GetHoveredOverWinPile()
 {
@@ -418,7 +418,7 @@ bool Canvas::CanPlaceCards(Card * card)
 	int cardNumber = card->GetCardNumber();
 
 	VectorPile * hoveredVector = GetHoveredOverVectorPile();
-	Card * topCard = hoveredVector->PeekTop();
+	Card * topCard = hoveredVector->GetTopCard();
 
 	if (hoveredVector == nullptr)
 	{
@@ -517,3 +517,193 @@ bool Canvas::CanPlaceCards(Card * card)
 
 	return false;
 }
+
+// Game Lost - ironic
+/*
+bool Canvas::GameLost()
+{
+	int movesAvailable = 0;
+	int pos = 0;
+	Card * tempCard = nullptr;
+	Card * iterate = nullptr;
+	Card * visibleCardAtMaxMoveablePos[7];
+	for (int i = 0; i < 7; ++i)
+	{
+		visibleCardAtMaxMoveablePos[i] = nullptr;
+	}
+
+	Card * lastVisibleCard[7];
+	for (int i = 0; i < 7; ++i)
+	{
+		lastVisibleCard[i] = nullptr;
+	}
+
+	for (int i = 0; i < 7; ++i)
+	{
+		if (vectorPiles[i]->GetPileSize() == 0)
+		{
+			// Check for avaialable Kings here
+
+		}
+		else
+		{
+			int size = vectorPiles[i]->GetPileSize();
+
+			//int pos = vectorPiles[i]->GetPileSize() - 1;
+			int pos = 0;
+
+			tempCard = vectorPiles[i]->GetTopCard();
+			iterate = vectorPiles[i]->GetTopCard();
+
+			// Iterate through all undiscovered cards that can be moved together.
+			if (tempCard == nullptr) { return false; }
+			
+			while ((tempCard != nullptr)  )
+			{
+				if (vectorPiles[i]->GetPileSize() == 1)
+				{
+					tempCard = vectorPiles[i]->IterateOne(iterate, 0);
+					break;
+				}
+				else
+				{
+					// 
+					if ((vectorPiles[i]->IterateOne(iterate, pos)->GetCardNumber()) == (vectorPiles[i]->IterateOne(iterate, pos + 1)->GetCardNumber() + 1))
+					{
+						tempCard = vectorPiles[i]->IterateOne(iterate, pos);
+					}
+					if (tempCard->GetIsDiscovered() != true)
+					{
+						break;
+					}
+
+					++pos;
+				}
+
+			}
+			if (vectorPiles[i]->GetPileSize() != 1)
+			{
+				tempCard = vectorPiles[i]->IterateOne(iterate, pos - 1);
+			}
+			else
+			{
+				tempCard = vectorPiles[i]->GetTopCard();
+			}
+
+			for (int k = 0; k < 7; ++k)
+			{
+				if (visibleCardAtMaxMoveablePos[k] == nullptr) { visibleCardAtMaxMoveablePos[k] = tempCard; break; }
+			}
+
+			// 
+			tempCard = vectorPiles[i]->PeekFront();
+
+			/*for (int j = 0; j < size; ++j)
+			{
+				tempCard = vectorPiles[i]->IterateOne(iterate, j);
+			}
+			for (int k = 0; k < 7; ++k)
+			{
+				if (lastVisibleCard[k] == nullptr) { lastVisibleCard[k] = tempCard; break; }
+			}
+		}
+
+		
+	}
+
+	//
+	for (int i = 0; i < 7; ++i)
+	{
+		
+		int cardSuit = visibleCardAtMaxMoveablePos[i]->GetSuit();
+
+		for (int j = 0; j < 7; ++j)
+		{
+			
+			if (visibleCardAtMaxMoveablePos[i]->GetCardNumber() == lastVisibleCard[j]->GetCardNumber() - 1)
+			{
+				switch (cardSuit)
+				{
+				case 0:	// CLUB
+				{
+					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit() == DIAMOND))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+
+				case 1: // HEART 
+				{
+					if ((lastVisibleCard[j]->GetSuit() == SPADE) || (lastVisibleCard[j]->GetSuit() == CLUB))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+
+				case 2: // SPADE
+				{
+					if ((lastVisibleCard[j]->GetSuit() == HEART) || (lastVisibleCard[j]->GetSuit() == DIAMOND))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+
+				case 3: // DIAMOND
+				{
+					if ((lastVisibleCard[j]->GetSuit() == SPADE) || (lastVisibleCard[j]->GetSuit() == CLUB))
+					{
+						++movesAvailable;
+					}
+					else
+					{
+						// Do nothing - No move found
+					}
+					break;
+				}
+				}
+			}
+		}
+	}
+
+	if (movesAvailable == 0)
+	{
+		return true;
+	}
+	return false;
+}
+
+
+bool Canvas::GameLost()
+{
+	// Create and populate card arrays that will hold the data of cards
+	// Top-most moveable card in a vector is called	- FIRST ARRAY
+	// and the card at the very back (FRONT) of a vector is called - SECOND ARRAY
+
+	// Iterating through the vectors
+		// Get the card at the back of the vector
+
+		// For the first visible card in a vector
+			// Iterate through the cards until you reach the first non-discovered card
+
+			// Set this card's position as the moveable card position in the Vector/Array
+	
+	// ================= //
+
+		// Still using the back(FRONT) card position of the vector
+		// Assign the card values to be values of the second array
+}*/
